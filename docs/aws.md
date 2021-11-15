@@ -220,6 +220,8 @@ In that case terraformer will not know with which region resources are associate
     * `aws_qldb_ledger`
 *   `rds`
     * `aws_db_instance`
+    * `aws_db_proxy`
+    * `aws_db_cluster`
     * `aws_db_parameter_group`
     * `aws_db_subnet_group`
     * `aws_db_option_group`
@@ -336,6 +338,16 @@ Will only import AWS EC2 instances along with EBS volumes annotated with tag `co
 terraformer import aws --resources=ec2_instance,ebs --filter=Type=ec2_instance;Name=tags.costCenter;Value=20000:'20001:1' --regions=eu-west-1
 ```
 Will work as same as example above with a change the filter will be applicable only to `ec2_instance` resources.
+
+Few more examples - How to import ec2 instance based on instance name and id
+```
+terraformer import aws --resources=ec2_instance --filter="Name=tags.Name;Value=Terraformer" --regions=us-east-1
+```
+This command imports ec2 instance having name as Terraformer.
+```
+terraformer import aws --resources=ec2_instance --filter="Name=id;Value=i-0xxxxxxxxx" --regions=us-east-1
+```
+This command imports ec2 instance having insatnce-id as i-0xxxxxxxxx.
 
 Due to fact API Gateway generates a lot of resources, it's possible to issue a filtering query to retrieve resources related to a given REST API by tags. To fetch resources related to a REST API resource with a tag `STAGE` and value `dev`, add parameter `--filter="Type=api_gateway_rest_api;Name=tags.STAGE;Value=dev"`.
 
